@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Plantilla Base</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        Plantilla Base
                     </a>
                 </div>
 
@@ -37,14 +37,28 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
+                        <!--Primero verifica si esta autenticado para mostrar las opciones-->
+                        @auth
+                            <!--Links a los que puede acceder el usuario normal-->
+
+                            <!--Links a los que puede acceder el usuario admin o master-->
+                            @if(Auth::user()->rol=='admin' || Auth::user()->rol=='master')
+                                
+                            @endif
+
+                            <!--Links a los que solo puede hacer el usuario master-->
+                            @if(Auth::user()->rol=='master')
+                                
+                            @endif
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">Iniciar Sesion</a></li>
+                            <li><a href="{{ route('register') }}">Registro</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -56,7 +70,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            Cerrar sesión
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
